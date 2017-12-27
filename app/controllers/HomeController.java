@@ -19,9 +19,13 @@ public class HomeController extends Controller {
 	}
 
 	public CompletionStage<Result> index() {
-		return companyRepository.updateSomething().thenApplyAsync(list -> {
-			Logger.info("A log message");
+		CompletionStage<Result> result = companyRepository.updateSomething().thenApplyAsync(list -> {
+			Logger.info("List Size - " + list.getTotalCount());
 			return ok(views.html.index.render(list.getTotalCount()));
 		}, httpExecutionContext.current());
+		
+		Logger.info("DONE");
+		return result;
+		
 	}
 }
